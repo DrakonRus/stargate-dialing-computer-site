@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Картинки по кругу</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            gap: 30px 30px;
+        }
+
+        #stargate {
+            position: relative;
+            display: inline-block;
+        }
+
+        #stargateInnerRing {
+            display: block;
+            width: 100%;
+        }
+
+        .chevron {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 150px;
+            /* transform: translate(-50%, -50%); */
+        }
+        
+        #chevron_deactivated_2 {
+            opacity: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="stargate">
+        <img src="stargate ring v2.webp" id="stargateInnerRing">
+        <div id="chevrons">
+        </div>
+    </div>
+
+    <!-- <div class="chevron-container">
+        <img src="chevron be like v2.png" alt="" id="chevron_deactivated_1" class="chevron">
+        <img src="activated chevron be like v2.png" alt="" id="chevron_activated_1" class="chevron">
+    </div> -->
+
+    <script>
+        const orbit = document.getElementById("chevrons");
+        const count = 9;
+        const radius = 425;
+        const imgActiveSrc = "activated chevron be like v2.png";
+        const imgDeactiveSrc = "chevron be like v2.png";
+
+        for (let i = 0; i < count; i++) {
+            const div = document.createElement("chevron-container");
+            const imgActive = document.createElement("img");
+            const imgDeactive = document.createElement("img");
+
+            const angle = (i * 360 / count);
+
+            const x = radius * Math.sin(angle * Math.PI / 180);
+            const y = -radius * Math.cos(angle * Math.PI / 180);
+
+            // Активированный шеврон
+            imgActive.src = imgActiveSrc;
+
+            imgActive.className = "chevron";
+            imgActive.id = `chevron_activated_${i}`
+
+            imgActive.style.left = `calc(50% + ${x}px - 75px)`; // -75px = половина ширины шеврона
+            imgActive.style.top = `calc(50% + ${y}px - 75px)`;
+
+            imgActive.style.transform = `rotate(${angle}deg)`;
+
+            // Деактивированный шеврон
+            imgDeactive.src = imgDeactiveSrc;
+
+            imgDeactive.className = "chevron";
+            imgDeactive.id = `chevron_deactivated_${i}`
+
+            imgDeactive.style.left = `calc(50% + ${x}px - 75px)`; // -75px = половина ширины шеврона
+            imgDeactive.style.top = `calc(50% + ${y}px - 75px)`;
+
+            imgDeactive.style.transform = `rotate(${angle}deg)`;
+
+            div.append(imgActive);
+            div.append(imgDeactive);
+            orbit.appendChild(div);
+        }
+    </script>
+    
+</body>
+
+</html>

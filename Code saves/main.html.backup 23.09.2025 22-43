@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="stargate">
+        <img id="stargate-inner-ring" onclick="startDial()" data-angle="0" src="stargate ring v2.webp" alt="">
+        <div id="chevrons"></div>
+    </div>
+    <div id="address-input"></div>
+    <div id="glyph-keyboard"></div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+<!-- Стыбзить набор адресса на клавиатуре с видоса -->
+<!-- https://www.youtube.com/watch?v=sW1wAwfMq6I -->

@@ -1,0 +1,217 @@
+document.addEventListener('DOMContentLoaded', function () {
+    CreateKeyboardDiv();
+    CreateChevrons();
+}, false);
+
+// Globals
+const GLYPHS = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklm"];
+let ADDRESS = [];
+let MAX_ADDRESS_LENGTH = 7
+
+
+function CreateKeyboardDiv() {
+    let keyboardDiv = document.getElementById("glyph-keyboard");
+
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 13; j++) {
+            let button = document.createElement("button");
+
+            let glyph = GLYPHS[13 * i + j]
+
+            button.textContent = glyph;
+            button.onclick = function() {
+                addressInputAdd(this, glyph);
+            }
+            button.className = "glyph-button"
+            button.id = `glyph-button_${glyph}`
+
+            keyboardDiv.append(button);
+        }
+        let br = document.createElement("br");
+        keyboardDiv.append(br);
+    }
+
+    let backspaceButton = document.createElement("button");
+    backspaceButton.textContent = "Backspace";
+    backspaceButton.className = "functional-button";
+    backspaceButton.onclick = function () {
+        addressInputPop();
+    }
+    
+    let enterButton = document.createElement("button");
+    enterButton.textContent = "Dial";
+    enterButton.className = "functional-button";
+    enterButton.onclick = function () {
+        dial();
+    }
+
+    keyboardDiv.append(enterButton, backspaceButton);
+    document.body.append(keyboardDiv);
+}
+
+function addressInputAdd(button, glyph) {
+    console.log(glyph);
+
+    if (ADDRESS.length == MAX_ADDRESS_LENGTH) return;
+    if (ADDRESS.includes(glyph)) return;
+
+    let addressInput = document.getElementById("address-input");
+
+    ADDRESS.push(glyph);
+    addressInput.textContent = ADDRESS.join("");
+
+    disableButton(button);
+}
+
+function addressInputPop() {
+    if (ADDRESS.length == 0) return;
+
+    let addressInput = document.getElementById("address-input");
+
+    let glyph = ADDRESS.pop();
+    addressInput.textContent = ADDRESS.join("");
+
+    enableButton(document.getElementById(`glyph-button_${glyph}`))
+}
+
+// Rotate → Chevron 0 On → Chevron 0 Off → Chevron 1 On → Rotate → ... → Rotate → Chevron 0 On → Activate
+//                         
+
+function dial() {
+    let ring = document.getElementById("stargate-inner-ring");
+    let chevronNumber = 0;
+    let glyphIndex;
+
+    getNext();
+
+    function getNext() {
+        if (chevronNumber >= ADDRESS.length) return;
+
+        glyphIndex = GLYPHS.indexOf(ADDRESS[chevronNumber]);
+
+        rotateToNext();
+
+        chevronNumber++;
+        ring.addEventListener("transitionend", function handler() {
+            ring.removeEventListener("transitionend", handler);
+            if (chevronNumber == ADDRESS.length) {
+                lockChevron();
+            } else {
+                encodeChevron(chevronNumber);
+            }
+        });
+    }
+
+    function rotateToNext() {
+        let currentAngle = ring.dataset.angle;
+
+        let angle = (360 / GLYPHS.length) * (glyphIndex);
+
+        let speed = 0.0333;
+        let time = Math.abs(currentAngle - angle) * speed;
+
+        ring.style.transition = `${time}s 1s ease-in-out`;
+        ring.style.transform = `rotate(${-angle}deg)`;
+
+        ring.dataset.angle = angle;
+    }
+
+    function encodeChevron(N) {
+        let chevron_0 = document.getElementById(`chevron_activated_0`);
+        if (N >= 4) N += 2;
+        // if (ADDRESS.length > 7 && N >= 7) N -= 4;
+
+        let chevron_N = document.getElementById(`chevron_activated_${N}`);
+        
+        activateChevron(chevron_0);
+        chevron_0.addEventListener("transitionend", function handler() {
+            chevron_0.removeEventListener("transitionend", handler);
+            deactivateChevron(chevron_0);
+            activateChevron(chevron_N);
+        });
+
+        chevron_N.addEventListener("transitionend", function handler() {
+            chevron_N.removeEventListener("transitionend", handler);
+            getNext();
+        });
+    }
+
+    function lockChevron() {
+        let chevron_0 = document.getElementById(`chevron_activated_0`);
+        activateChevron(chevron_0);
+    }
+
+    function activateChevron(chevron) {
+        chevron.style.opacity = "100%";
+    }
+
+    function deactivateChevron(chevron) {
+        chevron.style.opacity = "0%";
+    }
+}
+
+// function waitAnimationEnd(element, func) {
+//     element.addEventListener("transitionend", function handler() {
+//         ring.removeEventListener("transitionend", handler);
+//         func();
+//     });
+// }
+
+function CreateChevrons() {
+    const orbit = document.getElementById("chevrons");
+    const count = 9;
+    const radius = 425;
+    const imgActiveSrc = "activated chevron be like v2.png";
+    const imgDeactiveSrc = "chevron be like v2.png";
+
+    for (let i = 0; i < count; i++) {
+        const div = document.createElement("chevron-container");
+        const imgActive = document.createElement("img");
+        const imgDeactive = document.createElement("img");
+
+        const angle = (i * 360 / count);
+
+        const x = radius * Math.sin(angle * Math.PI / 180);
+        const y = -radius * Math.cos(angle * Math.PI / 180);
+
+        // Деактивированный шеврон
+        imgDeactive.src = imgDeactiveSrc;
+
+        imgDeactive.className = "chevron";
+        imgDeactive.id = `chevron_deactivated_${i}`
+        imgDeactive.style.zIndex = 1;
+
+        imgDeactive.style.left = `calc(50% + ${x}px - 75px)`; // -75px = половина ширины шеврона
+        imgDeactive.style.top = `calc(50% + ${y}px - 75px)`;
+
+        imgDeactive.style.transform = `rotate(${angle}deg)`;
+
+        // Активированный шеврон
+        imgActive.src = imgActiveSrc;
+
+        imgActive.className = "chevron";
+        imgActive.id = `chevron_activated_${i}`
+        imgActive.style.zIndex = 2;
+
+        imgActive.style.left = `calc(50% + ${x}px - 75px)`; // -75px = половина ширины шеврона
+        imgActive.style.top = `calc(50% + ${y}px - 75px)`;
+
+        imgActive.style.transform = `rotate(${angle}deg)`;
+        imgActive.style.opacity = "0%";
+
+        div.append(imgActive);
+        div.append(imgDeactive);
+        orbit.appendChild(div);
+    }
+}
+
+function disableButton(button) {
+    // button.disabled = true;
+    button.classList.add("disabled");
+}
+
+function enableButton(button) {
+    // button.disabled = false;
+    button.classList.remove("disabled");
+}
+
