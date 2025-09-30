@@ -29,25 +29,25 @@ function CreateKeyboardDiv() {
 
             keyboardDiv.append(button);
         }
-        let br = document.createElement("br");
-        keyboardDiv.append(br);
+        // let br = document.createElement("br");
+        // keyboardDiv.append(br);
     }
 
-    let backspaceButton = document.createElement("button");
-    backspaceButton.textContent = "Backspace";
-    backspaceButton.className = "functional-button";
-    backspaceButton.onclick = function () {
-        addressInputPop();
-    }
+    // let backspaceButton = document.createElement("button");
+    // backspaceButton.textContent = "Backspace";
+    // backspaceButton.className = "functional-button";
+    // backspaceButton.onclick = function () {
+    //     addressInputPop();
+    // }
     
-    let enterButton = document.createElement("button");
-    enterButton.textContent = "Dial";
-    enterButton.className = "functional-button";
-    enterButton.onclick = function () {
-        dial();
-    }
+    // let enterButton = document.createElement("button");
+    // enterButton.textContent = "Dial";
+    // enterButton.className = "functional-button";
+    // enterButton.onclick = function () {
+    //     dial();
+    // }
 
-    keyboardDiv.append(enterButton, backspaceButton);
+    // keyboardDiv.append(enterButton, backspaceButton);
     document.body.append(keyboardDiv);
 }
 

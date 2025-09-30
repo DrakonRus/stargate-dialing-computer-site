@@ -1,8 +1,74 @@
 body {
-    /* height: 100vh;
-    width: 100%; */
-    margin: 0;
+    background-color: rgb(20, 20, 20);
 }
+
+#all {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    margin-top: 25px;
+}
+
+#console-container {
+    width: 500px;
+    height: 1000px;
+    padding: 25px 15px;
+    border: 5px solid red;
+    margin-right: 20px;
+    margin-top: 50px;
+}
+
+#stargate-and-keyboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#stargate-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+#functional-buttons-container {
+    margin-top: 20px;
+}
+
+#keyboard-container {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#glyph-keyboard-container {
+    display: grid;
+    grid-template-columns: repeat(13, auto);
+    justify-content: center;
+}
+
+#address-input-container {
+    width: 800px;
+    height: 100px;
+    border: 4px solid #00958e;
+    background-color: rgb(25, 25, 25);
+
+    font-family: 'Stargate SG-1 Address Glyphs';
+    font-size: 100px;
+    text-align: center;
+    color: white;
+}
+
+.chevron {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+
+    transition: opacity 0.5s;
+}
+
 
 .glyph-button {
     height: 100px;
@@ -34,19 +100,6 @@ body {
     color: rgb(255, 0, 0);
 }
 
-#address-input-container {
-    width: 800px;
-    height: 100px;
-    border: 4px solid #00958e;
-    background-color: rgb(25, 25, 25);
-    padding-top: 10px;
-
-    font-family: 'Stargate SG-1 Address Glyphs';
-    font-size: 100px;
-    text-align: center;
-    color: white;
-}
-
 .functional-button {
     height: 100px;
     width: 350px;
@@ -56,24 +109,4 @@ body {
     font-size: 50px;
     text-align: center;
     color: white;
-}
-
-#stargate-container {
-    position: relative;
-    display: inline-block;
-}
-
-/* #stargate-inner-ring {
-    display: block;
-    width: 100%;
-} */
-
-.chevron {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 150px;
-    /* transform: translate(-50%, -50%); */
-
-    transition: opacity 0.5s;
 }

@@ -7,12 +7,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="stargate-container">
-        <img id="stargate-inner-ring" data-angle="0" data-direction="1" src="images/stargate ring v2.webp" alt="">
-        <div id="chevrons-container"></div>
+    <div id="all">
+        <div id="console-container"></div>
+        <div id="stargate-and-keyboard-container">
+            <div id="stargate-container">
+                <img id="stargate-inner-ring" data-angle="0" data-direction="1" src="images/stargate ring v2.webp" alt="">
+                <div id="chevrons-container"></div>
+            </div>
+            <div id="functional-buttons-container">
+                <button class="functional-button" onclick="dial()">Dial</button>
+                <button class="functional-button" onclick="addressInputPop()">Backspace</button>
+            </div>
+            <div id="keyboard-container">
+                <div id="address-input-container"></div>
+                <div id="glyph-keyboard-container"></div>
+            </div>
+        </div>
     </div>
-    <div id="address-input-container"></div>
-    <div id="glyph-keyboard-container"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
