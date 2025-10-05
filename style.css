@@ -17,6 +17,22 @@ body {
     border: 5px solid red;
     margin-right: 20px;
     margin-top: 50px;
+
+    color: white;
+    font-size: 50px;
+
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-end; */
+    align-items: flex-start;
+
+    overflow-y: auto;
+}
+
+#console-container > div {
+    word-break: break-word;
+    white-space: pre-wrap;
+    /* сохраняет пробелы и переносы */
 }
 
 #stargate-and-keyboard-container {
@@ -59,6 +75,7 @@ body {
     text-align: center;
     color: white;
 }
+
 
 .chevron {
     position: absolute;

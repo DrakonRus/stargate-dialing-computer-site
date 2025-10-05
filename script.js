@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
 const GLYPHS = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklm"];
 let ADDRESS = [];
 let MAX_ADDRESS_LENGTH = 9
-let SLOW_ROTATE_SPEED = 0.0333
+// let SLOW_ROTATE_SPEED = 0.0333
+let SLOW_ROTATE_SPEED = 0.02
 let SLOW_ROTATE_DELAY = 0.25
 
 
@@ -100,6 +101,8 @@ function dial() {
                 encodeChevron(chevronNumber);
             }
         });
+
+        consoleAddMesage(`Шеврон ${chevronNumber} введён.`);
     }
 
     function rotateToNextGlyph() {
@@ -107,7 +110,9 @@ function dial() {
         let currentDirection = Number(ring.dataset.direction);
 
         let targetAngle = (360 / GLYPHS.length) * (glyphIndex);
-        console.log(targetAngle);
+        console.log(`target angle: ${targetAngle}`);
+
+        let delta = targetAngle - currentAngle;
 
         // 1 - right
         // 0 - left
@@ -118,6 +123,8 @@ function dial() {
             // ДОРАБОТАТЬ
             targetAngle = currentAngle + (targetAngle - (currentAngle + 360) % 360);
         }
+
+        targetAngle = currentAngle + delta;
 
         let speed = SLOW_ROTATE_SPEED;
         let delay = SLOW_ROTATE_DELAY;
@@ -155,11 +162,14 @@ function dial() {
         waitAnimationEnd(chevron_N, () => {
             getNextGlyph();
         });
+
+        consoleAddMesage(`Шеврон ${chevronNumber} закодирован.`);
     }
 
     function lockChevron() {
         let chevron_0 = document.getElementById(`chevron_activated_0`);
         activateChevron(chevron_0);
+        consoleAddMesage(`Шеврон ${chevronNumber} заблокирован.`);
     }
 
     function activateChevron(chevron) {
@@ -235,3 +245,28 @@ function waitAnimationEnd(element, func) {
         func();
     });
 }
+
+function consoleAddMesage(msg) {
+    container = document.getElementById("console-container");
+
+    text = document.createElement("div");
+    // text.textContent = tempCounter++ ** 20;
+
+    container.appendChild(text);
+    // container.scrollTop = container.scrollHeight;
+
+    let i = 0;
+    const fullText = msg || `Сообщение ${tempCounter++}`;
+
+    function typeLetter() {
+        if (i < fullText.length) {
+            text.textContent += fullText[i];
+            i++;
+            container.scrollTop = container.scrollHeight; // прокрутка вниз
+            setTimeout(typeLetter, 20); // задержка между буквами 50мс
+        }
+    }
+
+    typeLetter();
+}
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .circle {
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(255, 255, 255, 0.8) 0%,
+                    rgba(255, 255, 255, 0.2) 60%,
+                    rgba(255, 255, 255, 0) 100%);
+            animation:
+                grow 2s ease-in-out forwards,
+                pulse 2s ease-in-out infinite;
+            animation-delay: 0s, 2.1s;
+            /* Пульс начинается после роста */
+        }
+
+        @keyframes grow {
+            from {
+                width: 0;
+                height: 0;
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            to {
+                width: 200px;
+                height: 200px;
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(0.9);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="circle"></div>
+</body>
+
+</html>
